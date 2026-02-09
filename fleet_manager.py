@@ -6,14 +6,13 @@ def init_database():
     return Names, Ranks, Divisions, IDs
 
 def display_menu():
-    user_name = input("Enter your full name: ")
     print("\n-----Menu-----")
-    print(f"Current user logged in: {user_name}")
     print("1 Display Members")
     print("2 Add Members")
     print("3 Remove Members")
     print("4 Update Rank")
-    print("5 Exit")
+    print("5 Search Crew")
+    print("6 Exit")
     print()
     choice = int(input("Enter Choice: "))
     return choice
@@ -73,9 +72,26 @@ def display_roster(names, ranks, divs, ids):
     for name, rank, div, id in zip(names, ranks, divs, ids):
         print(f"{name:<11} {rank:<12} {div:<12} {id:<10}")
 
+def search_crew(names, ranks, divs, ids):
+    term = input("Enter search term: ").strip().lower()
+    print()
+    header = f"{'NAME':<10} | {'Ranks':<10} | {'Divisions':<10} | {'IDs':<10}"
+    matches = []
+    for name, rank, div, id_ in zip(names, ranks, divs, ids):
+        if term in name.lower():
+            matches.append((name, rank, div, id_))
+    if matches:
+        print(header)
+        for name, rank, div, id_ in matches:
+            print(f"{name:<11} {rank:<12} {div:<12} {id_:<10}")
+    else:
+        print(f"No crew members found matching '{term}'.")
+    return
 
 def main():
     Names, Ranks, Divisions, IDs = init_database()    
+    user_name = input("Enter your full name: ")
+    print(f"Current user logged in: {user_name}")
     while True:
         choice = display_menu()
         if choice == 1:
@@ -91,6 +107,8 @@ def main():
         elif choice == 4:
             Names, Ranks, IDs = update_rank(Names, Ranks, IDs)
         elif choice == 5:
+            search_crew(Names, Ranks, Divisions, IDs)
+        elif choice == 6:
             print("Exiting...")
             break
         else:
