@@ -14,7 +14,8 @@ def display_menu():
     print("5 Search Crew")
     print("6 Filter by Division")
     print("7 Calculate Payroll")
-    print("8 Exit")
+    print("8 Count Officers")
+    print("9 Exit")
     print()
     choice = int(input("Enter Choice: "))
     return choice
@@ -121,8 +122,6 @@ def calculate_payroll(ranks):
     }
     total = 0
     for r in ranks:
-        if not isinstance(r, str):
-            continue
         key = r.strip().lower()
         key = key.replace('.', '')
         key = key.replace('  ', ' ')
@@ -142,6 +141,14 @@ def calculate_payroll(ranks):
         else:
             total += 250
     return total
+
+def count_officers(ranks):
+    count = 0
+    for r in ranks:
+        key = r.strip().lower()
+        if 'captain' in key or 'commander' in key:
+            count += 1
+    return count
 
 def main():
     Names, Ranks, Divisions, IDs = init_database()    
@@ -169,6 +176,9 @@ def main():
             total_payroll = calculate_payroll(Ranks)
             print(f"Total Monthly Payroll: £{total_payroll}")
         elif choice == 8:
+            count = count_officers(Ranks)
+            print(f"Number of Officers: {count}")
+        elif choice == 9:
             print("Exiting...")
             break
         else:
