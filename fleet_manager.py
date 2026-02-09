@@ -12,7 +12,8 @@ def display_menu():
     print("3 Remove Members")
     print("4 Update Rank")
     print("5 Search Crew")
-    print("6 Exit")
+    print("6 Filter by Division")
+    print("7 Exit")
     print()
     choice = int(input("Enter Choice: "))
     return choice
@@ -88,6 +89,26 @@ def search_crew(names, ranks, divs, ids):
         print(f"No crew members found matching '{term}'.")
     return
 
+def filter_by_division(names, divs):
+    choice = input('Enter division (Command, Operations, Sciences): ').strip().title()
+    matches = []
+    match choice:
+        case 'Command' | 'Operations' | 'Sciences':
+            for name, div in zip(names, divs):
+                if div == choice:
+                    matches.append(name)
+        case _:
+            print(f"Invalid division: '{choice}'.")
+            return
+
+    if matches:
+        print(f"\nMembers in {choice}:")
+        for m in matches:
+            print(m)
+    else:
+        print(f"No members found in {choice}.")
+    return
+
 def main():
     Names, Ranks, Divisions, IDs = init_database()    
     user_name = input("Enter your full name: ")
@@ -109,6 +130,8 @@ def main():
         elif choice == 5:
             search_crew(Names, Ranks, Divisions, IDs)
         elif choice == 6:
+            filter_by_division(Names, Divisions)
+        elif choice == 7:
             print("Exiting...")
             break
         else:
