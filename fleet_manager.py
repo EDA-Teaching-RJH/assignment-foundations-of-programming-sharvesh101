@@ -5,10 +5,18 @@ def init_database():
     IDs = ["1", "2", "3", "4", "5"]
     return Names, Ranks, Divisions, IDs
 
-def display_menu(names, ranks, divs, ids):
-    print(f"\n{'NAME':<10} | {'Ranks':<10} | {'Divisions':<10} | {'IDs':<10}")
-    for name, rank, div, id in zip(names, ranks, divs, ids):
-        print(f"{name:<11} {rank:<12} {div:<12} {id:<10}")
+def display_menu():
+    user_name = input("Enter your full name: ")
+    print("\n-----Menu-----")
+    print(f"Current user logged in: {user_name}")
+    print("1 Display Members")
+    print("2 Add Members")
+    print("3 Remove Members")
+    print("4 Update Rank")
+    print("5 Exit")
+    print()
+    choice = int(input("Enter Choice: "))
+    return choice
 
 def add_member(names, ranks, divs, ids, new_name, new_rank, new_div, new_id):
     names.append(new_name)
@@ -18,25 +26,39 @@ def add_member(names, ranks, divs, ids, new_name, new_rank, new_div, new_id):
     print(f"Member {new_name} added successfully!")
     return names, ranks, divs, ids
 
-def main():
-    Names, Ranks, Divisions, IDs = init_database()
+def remove_member(names, ranks, divs, ids):
+    print("\n--- Remove Member ---")
+    remove_id = input("Enter ID of the Member to remove: ")
     
+    if remove_id in ids:
+        index = ids.index(remove_id)
+        removed_name = names.pop(index)
+        ranks.pop(index)
+        divs.pop(index)
+        ids.pop(index)
+        print(f"Member {removed_name} removed successfully!")
+    else:
+        print(f"ID {remove_id} not found!")
+    return names, ranks, divs, ids
+
+
+def main():
+    Names, Ranks, Divisions, IDs = init_database()    
     while True:
-        print("\n-----Menu-----")
-        print("1 Display Members")
-        print("2 Add Members")
-        print("3 Exit")
-        print()
-        choise = int(input("Enter Choice: "))
-        if choise == 1:
-            display_menu(Names, Ranks, Divisions, IDs)
-        elif choise == 2:
+        choice = display_menu()
+        if choice == 1:
+            display_roster(Names, Ranks, Divisions, IDs)
+        elif choice == 2:
             new_name = input("Enter Name of the member: ")
             new_rank = input("Enter Rank of the member: ")
             new_div = input("Enter Division of the member: ")
             new_id = input("Enter ID of the member: ")
             Names, Ranks, Divisions, IDs = add_member(Names, Ranks, Divisions, IDs, new_name, new_rank, new_div, new_id)
-        elif choise == 3:
+        elif choice == 3:
+            Names, Ranks, Divisions, IDs = remove_member(Names, Ranks, Divisions, IDs)
+        elif choice == 4:
+            Names, Ranks, IDs = update_rank(Names, Ranks, IDs)
+        elif choice == 5:
             print("Exiting...")
             break
         else:
