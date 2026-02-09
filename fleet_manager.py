@@ -13,7 +13,8 @@ def display_menu():
     print("4 Update Rank")
     print("5 Search Crew")
     print("6 Filter by Division")
-    print("7 Exit")
+    print("7 Calculate Payroll")
+    print("8 Exit")
     print()
     choice = int(input("Enter Choice: "))
     return choice
@@ -109,6 +110,39 @@ def filter_by_division(names, divs):
         print(f"No members found in {choice}.")
     return
 
+def calculate_payroll(ranks):
+    pay_table = {
+        'captain': 1000,
+        'commander': 800,
+        'lt commander': 600,
+        'lt. commander': 600,
+        'lieutenant': 500,
+        'ensign': 200,
+    }
+    total = 0
+    for r in ranks:
+        if not isinstance(r, str):
+            continue
+        key = r.strip().lower()
+        key = key.replace('.', '')
+        key = key.replace('  ', ' ')
+        if key in pay_table:
+            total += pay_table[key]
+            continue
+        if 'captain' in key:
+            total += pay_table['captain']
+        elif 'lt' in key and 'commander' in key:
+            total += pay_table['lt commander']
+        elif 'commander' in key:
+            total += pay_table['commander']
+        elif 'lieutenant' in key:
+            total += pay_table['lieutenant']
+        elif 'ensign' in key:
+            total += pay_table['ensign']
+        else:
+            total += 250
+    return total
+
 def main():
     Names, Ranks, Divisions, IDs = init_database()    
     user_name = input("Enter your full name: ")
@@ -132,6 +166,9 @@ def main():
         elif choice == 6:
             filter_by_division(Names, Divisions)
         elif choice == 7:
+            total_payroll = calculate_payroll(Ranks)
+            print(f"Total Monthly Payroll: £{total_payroll}")
+        elif choice == 8:
             print("Exiting...")
             break
         else:
