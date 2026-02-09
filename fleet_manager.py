@@ -54,6 +54,25 @@ def update_rank(names, ranks, ids):
         print(f"ID {update_id} not found!")
     return names, ranks, ids
 
+def update_rank(names, ranks, ids):
+    print("\n--- Update Rank ---")
+    update_id = input("Enter ID of the Member to update rank: ")
+    
+    if update_id in ids:
+        index = ids.index(update_id)
+        new_rank = input(f"Enter new rank for {names[index]}: ")
+        ranks[index] = new_rank
+        print(f"Member {names[index]}'s rank updated successfully!")
+    else:
+        print(f"ID {update_id} not found!")
+    
+    return names, ranks, ids
+
+def display_roster(names, ranks, divs, ids):
+    print(f"\n{'NAME':<10} | {'Ranks':<10} | {'Divisions':<10} | {'IDs':<10}")
+    for name, rank, div, id in zip(names, ranks, divs, ids):
+        print(f"{name:<11} {rank:<12} {div:<12} {id:<10}")
+
 
 def main():
     Names, Ranks, Divisions, IDs = init_database()    
