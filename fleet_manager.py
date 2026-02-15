@@ -145,7 +145,6 @@ def calculate_payroll(ranks):
 def count_officers(ranks):
     count = 0
     for r in ranks:
-        key = r.strip().lower()
         if 'captain' in key or 'commander' in key:
             count += 1
     return count
